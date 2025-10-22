@@ -1,8 +1,9 @@
-import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { ChangeEvent, useState } from 'react';
+import { Dialog, DialogActions, DialogTitle } from '@mui/material';
+import { ChangeEvent, KeyboardEvent , useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addCar } from '../api/carapi';
 import { Car } from '../types';
+import CarDialogContent from './CarDialogContent';
 
 function AddCar() {
   const [ open, setOpen ] = useState(false);
@@ -46,22 +47,24 @@ function AddCar() {
     })
   };
 
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        event.preventDefault(); // 기본 제출 동작 방지
+        handleSave();
+      }
+    };
+
   return(
     <>
       <button onClick={handleClickOpen}>New Car</button>
       <Dialog open={open}>
         <DialogTitle>New Car</DialogTitle>
-        <DialogContent>
-          <input type="text" name="brand" value={car.brand} placeholder="Brand" onChange={handleChange}/><br />
-          <input type="text" name="model" value={car.model} placeholder="Model" onChange={handleChange}/><br />
-          <input type="text" name="color" value={car.color} placeholder="Color" onChange={handleChange}/><br />
-          <input type="text" name="registrationNumber" value={car.registrationNumber} placeholder="Registration Number" onChange={handleChange}/><br />
-          <input type="number" name="modelYear" value={car.modelYear} placeholder="Model Year" onChange={handleChange}/><br />
-          <input type="number" name="price" value={car.price} placeholder="Price" onChange={handleChange}/><br />
-        </DialogContent>
+        <div onKeyDown={handleKeyDown}>
+          <CarDialogContent car={car} handleChange={handleChange} />
+        </div>
         <DialogActions>
           <button onClick={handleClickClose}>Cancel | 취소</button>
-          <button onClick={handleSave}>Save | 저장</button>
+          <button onClick={() => { handleSave(); handleClickClose(); }}>Save | 저장</button>
         </DialogActions>
       </Dialog>
     </>
