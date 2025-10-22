@@ -1,4 +1,4 @@
-import { DialogContent } from "@mui/material";
+import { DialogContent, TextField, Stack } from "@mui/material";
 import { ChangeEvent } from "react";
 import { Car } from "../types";
 
@@ -11,12 +11,14 @@ type DialogFormProps = {
 function CarDialogContent({car, handleChange} : DialogFormProps) {
   return(
     <DialogContent>
-      <input type="text" name="brand" value={car.brand} placeholder="Brand" onChange={handleChange}/><br />
-      <input type="text" name="model" value={car.model} placeholder="Model" onChange={handleChange}/><br />
-      <input type="text" name="color" value={car.color} placeholder="Color" onChange={handleChange}/><br />
-      <input type="text" name="registrationNumber" value={car.registrationNumber} placeholder="Registration Number" onChange={handleChange}/><br />
-      <input type="number" name="modelYear" value={car.modelYear} placeholder="Model Year" onChange={handleChange}/><br />
-      <input type="number" name="price" value={car.price} placeholder="Price" onChange={handleChange}/><br />
+      <Stack spacing={2} sx={{ mt: 1 }}>
+        <TextField label="Brand" name="brand" value={car.brand} placeholder="Brand" onChange={handleChange}/>
+        <TextField label="model" name="model" value={car.model} placeholder="Model" onChange={handleChange}/>
+        <TextField label="color" name="color" value={car.color} placeholder="Color" onChange={handleChange}/>
+        <TextField label="registrationNumber" name="registrationNumber" value={car.registrationNumber} placeholder="Registration Number" onChange={handleChange}/>
+        <TextField label="modelYear" name="modelYear" value={car.modelYear} placeholder="Model Year" onChange={handleChange}/>
+        <TextField label="price" name="price" value={car.price} placeholder="Price" onChange={handleChange}/>
+      </Stack>
     </DialogContent>
   );
 }

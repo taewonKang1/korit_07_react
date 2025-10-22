@@ -1,9 +1,10 @@
 import { ChangeEvent, KeyboardEvent, useState } from "react";
 import { Car, CarResponse, CarEntity } from "../types";
-import { Dialog, DialogActions, DialogTitle } from "@mui/material";
+import { Dialog, DialogActions, DialogTitle, Button, IconButton, Tooltip } from "@mui/material";
 import CarDialogContent from "./CarDialogContent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateCar } from "../api/carapi";
+import EditIcon from '@mui/icons-material/Edit';
 
 type FormProps = {
   cardata: CarResponse
@@ -72,21 +73,27 @@ function EditCar({cardata}: FormProps) {
       event.preventDefault(); // 기본 제출 동작 방지
       handleSave();
     }
+    if (event.key === "Escape") {
+      event.preventDefault();
+      handleClickClose();
+    }
   };
 
   return(
     <>
-      <button onClick={handleClickOpen}>
-        Edit
-      </button>
+      <Tooltip title="Edit Car">
+      <IconButton aria-label="edit" size="small" onClick={handleClickOpen}>
+        <EditIcon fontSize="small"/>
+      </IconButton>
+      </Tooltip>
       <Dialog open={open} onClose={handleClickClose}>
         <DialogTitle>Edit Car</DialogTitle>
         <div onKeyDown={handleKeyDown}>
           <CarDialogContent car={car} handleChange={handleChange} />
         </div>
         <DialogActions>
-          <button onClick={handleClickClose}>Cancel | 취소</button>
-          <button onClick={handleSave}>Save | 저장</button>
+          <Button onClick={handleClickClose}>Cancel | 취소</Button>
+          <Button onClick={handleSave}>Save | 저장</Button>
         </DialogActions>
       </Dialog>
     </>

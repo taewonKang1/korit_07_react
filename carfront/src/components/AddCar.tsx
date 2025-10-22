@@ -1,4 +1,4 @@
-import { Dialog, DialogActions, DialogTitle } from '@mui/material';
+import { Dialog, DialogActions, DialogTitle, Button } from '@mui/material';
 import { ChangeEvent, KeyboardEvent , useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { addCar } from '../api/carapi';
@@ -47,24 +47,25 @@ function AddCar() {
     })
   };
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Enter") {
-        event.preventDefault(); // 기본 제출 동작 방지
-        handleSave();
-      }
-    };
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Enter") {
+      event.preventDefault(); // 기본 제출 동작 방지
+      handleSave();
+      handleClickClose();
+    }
+  };
 
   return(
     <>
-      <button onClick={handleClickOpen}>New Car</button>
-      <Dialog open={open}>
+      <Button onClick={handleClickOpen} variant='outlined'>New Car</Button>
+      <Dialog open={open} onClose={handleClickClose}>
         <DialogTitle>New Car</DialogTitle>
         <div onKeyDown={handleKeyDown}>
           <CarDialogContent car={car} handleChange={handleChange} />
         </div>
         <DialogActions>
-          <button onClick={handleClickClose}>Cancel | 취소</button>
-          <button onClick={() => { handleSave(); handleClickClose(); }}>Save | 저장</button>
+          <Button onClick={handleClickClose}>Cancel | 취소</Button>
+          <Button onClick={() => { handleSave(); handleClickClose(); }}>Save | 저장</Button>
         </DialogActions>
       </Dialog>
     </>
