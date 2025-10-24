@@ -1,6 +1,7 @@
 import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
-import { useState } from "react";
-import { Item } from "./App";
+import { useState, ChangeEvent } from "react";
+import { Item } from "../App";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 type AddItemProps = {
   addItem: (item: Item) => void;
@@ -20,6 +21,12 @@ function AddItem(props: AddItemProps) {
   const handleClose = () => {
     setOpen(false);
   }
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setItem({...item, [event.target.name]: event.target.value});
+  }
+
+  const queryClient = useQueryClient();
 
   // App.tsx의 addItem 함수를 호출하고, item 상태를 전달
   const addItem = () => {

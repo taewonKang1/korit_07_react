@@ -3,7 +3,7 @@ import {AppBar, Toolbar, Typography} from '@mui/material'
 import {List, ListItem, ListItemText } from '@mui/material';
 import './App.css'
 import { useState } from 'react';
-import AddItem from './AddItem';
+import AddItem from './components/AddItem';
 
 export type Item = {
   product: string;
