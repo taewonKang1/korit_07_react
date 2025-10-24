@@ -1,6 +1,7 @@
-import { useState, ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 import axios from "axios";
-import { Button, TextField, Stack } from "@mui/material";
+import { Button, TextField, Stack, Snackbar } from "@mui/material";
+import Carlist from "./Carlist";
 
 type User = {
   username: string;
@@ -13,9 +14,10 @@ function Login() {
     password: ''
   });
   const [ isAuthenticated, setAuth ] = useState(false);
+  const [ open, setOpen ] = useState(false);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setUser({...user, [event.target.name]: event.target.value});
+    setUser({ ...user, [event.target.name]: event.target.value});
   }
 
   const handleLogin = () => {
@@ -32,14 +34,18 @@ function Login() {
         setAuth(true);
       }
     })
-    .catch(err => {console.log(err)
-      
+    .catch(err => {
+      console.log(err)
     });
   }
 
-  return(
-    <>
-      <Stack spacing={2} alignItems="center" mt={2}>
+  if(isAuthenticated) {
+    return <Carlist />
+  }
+
+  else {
+    return(
+      <Stack spacing={2} alignItems="center" mt={10} >
         <TextField 
           name="username"
           label="Username"
@@ -48,7 +54,7 @@ function Login() {
         <TextField 
           type="password"
           name="password"
-          label="password"
+          label="Password"
           onChange={handleChange}
         />
         <Button
@@ -58,9 +64,15 @@ function Login() {
         >
           Login
         </Button>
+        <Snackbar 
+          open={open}
+          autoHideDuration={3000}
+          onClose={() => setOpen(false)}
+          message='ID 혹은 비밀번호가 틀렸습니다.'
+        />
       </Stack>
-    </>
-  )
+    );
+  }
 }
 
 export default Login
